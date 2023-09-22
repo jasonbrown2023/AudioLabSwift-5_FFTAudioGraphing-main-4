@@ -18,7 +18,7 @@ class AudioModel {
     var timeData:[Float]
     var fftData:[Float]
     var fftData2:[Float]
-    var max:[Float]
+    //var max:[Float]
     
     // MARK: Public Methods
     init(buffer_size:Int) {
@@ -26,8 +26,8 @@ class AudioModel {
         // anything not lazily instatntiated should be allocated here
         timeData = Array.init(repeating: 0.0, count: BUFFER_SIZE)
         fftData = Array.init(repeating: 0.0, count: BUFFER_SIZE/2)
-        fftData2 = Array.init(repeating: 0.0, count: BUFFER_SIZE/2)
-        max = Array.init(repeating: 0.0, count: 20)
+        fftData2 = Array.init(repeating: 0.0, count: BUFFER_SIZE/20)
+        //max = Array.init(repeating: 0.0, count: 20)
     }
     
     // public function for starting processing of microphone data
@@ -72,6 +72,10 @@ class AudioModel {
         return FFTHelper.init(fftSize: Int32(BUFFER_SIZE))
     }()
     
+    private lazy var fftHelper2:FFTHelper? = {
+        return FFTHelper.init(fftSize: Int32(BUFFER_SIZE))
+    }()
+    
     
     
     private lazy var inputBuffer:CircularBuffer? = {
@@ -96,7 +100,7 @@ class AudioModel {
             fftHelper!.performForwardFFT(withData: &timeData,
                                          andCopydBMagnitudeToBuffer: &fftData)
             
-            fftHelper!.performForwardFFT(withData: &timeData,
+            fftHelper2!.performForwardFFT(withData: &timeData,
                                          andCopydBMagnitudeToBuffer: &fftData2)
             
             
@@ -121,7 +125,7 @@ class AudioModel {
         // copy samples from the microphone into circular buffer
         self.inputBuffer?.addNewFloatData(data, withNumSamples: Int64(numFrames))
         //printMax(data: Optional<UnsafeMutablePointer<Float>>, numFrames: UInt32, numChannels: UInt32)
-        
+        /*
         if let arrayData = data{
             var max: Float = 0;
             //---------------------------------------
@@ -139,7 +143,7 @@ class AudioModel {
             
             
         }
-        
+        */
         func printMax (data:Optional<UnsafeMutablePointer<Float>>, numFrames:UInt32, numChannels: UInt32) {
             // copy samples from the microphone into circular buffer
             //self.inputBuffer?.addNewFloatData(data, withNumSamples: Int64(numFrames))
