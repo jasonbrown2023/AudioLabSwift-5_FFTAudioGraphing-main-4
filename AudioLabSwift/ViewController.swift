@@ -45,7 +45,7 @@ class ViewController: UIViewController {
             
             graph.addGraph(withName: "fft2",
                            shouldNormalizeForFFT: true,
-                           numPointsInGraph: AudioConstants.AUDIO_BUFFER_SIZE/20)
+                           numPointsInGraph: AudioConstants.AUDIO_BUFFER_SIZE/2)
             
             graph.makeGrids() // add grids to graph
         }
@@ -91,6 +91,10 @@ class ViewController: UIViewController {
                 forKey: "time"
                 
             )
+              
+           
+            vDSP_vswmax(self.audio.fftData2, 1, &audio.fftData2, 1, vDSP_Length(AudioConstants.AUDIO_BUFFER_SIZE/20), vDSP_Length(AudioConstants.AUDIO_BUFFER_SIZE/100))
+                
             
             graph.updateGraph(
                 data: self.audio.fftData2,

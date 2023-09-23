@@ -26,7 +26,7 @@ class AudioModel {
         // anything not lazily instatntiated should be allocated here
         timeData = Array.init(repeating: 0.0, count: BUFFER_SIZE)
         fftData = Array.init(repeating: 0.0, count: BUFFER_SIZE/2)
-        fftData2 = Array.init(repeating: 0.0, count: BUFFER_SIZE/20)
+        fftData2 = Array.init(repeating: 0.0, count: BUFFER_SIZE/2)
         //max = Array.init(repeating: 0.0, count: 20)
     }
     
@@ -125,6 +125,9 @@ class AudioModel {
         // copy samples from the microphone into circular buffer
         self.inputBuffer?.addNewFloatData(data, withNumSamples: Int64(numFrames))
         //printMax(data: Optional<UnsafeMutablePointer<Float>>, numFrames: UInt32, numChannels: UInt32)
+        
+        
+          
         /*
         if let arrayData = data{
             var max: Float = 0;
